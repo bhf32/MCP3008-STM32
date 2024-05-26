@@ -9,7 +9,17 @@
 #define __MCP3008_H_
 
 #include <stdlib.h>
-#include "main.h"
+#include "stm32l5xx_hal.h"
+
+/** Bit Manipulation Macros */
+#define SHIFT_4    			    	   4
+#define SHIFT_8     				   8
+#define FIRST_10_BITS_MASK 			   0x03FF
+
+/** Limits and Commonly used conversion Macro*/
+#define MCP3008_NUM_CHANNELS       	   8
+#define MCP3008_ADC_MAX				   1023
+#define MCP3008_SPI_TIMEOUT			   1    //1 msec timeout
 
 typedef struct
 {
@@ -22,15 +32,18 @@ typedef struct
 
 }MCP3008_Handle_t;
 
+/**
+ * @brief Error mapping for driver functions
+ */
 typedef enum
 {
-	MCP3008_OK 						 = 0,
-	MCP3008_ERROR					 = 1
+    MCP3008_ERROR_INVALID_ARG   	 = -1,
+    MCP3008_ERROR_SPI 				 = -2
 
 }MCP3008_STATUS;
 
-MCP3008_STATUS MCP3008_handle_init(MCP3008_data_t *handle, GPIO_TypeDef *CS_Port, uint16_t CS_Pin, SPI_HandleTypeDef *hspi);
+void MCP3008_handle_init(MCP3008_Handle_t *handle, GPIO_TypeDef *cs_port, uint16_t cs_pin, SPI_HandleTypeDef *hspi);
 
-uint16_t MCP3008_read(MCP3008_data_t *handle, uint16_t chan);
+float MCP3008_read(MCP3008_Handle_t *handle, uint16_t chan);
 
 #endif /* __MCP3008_H_ */
