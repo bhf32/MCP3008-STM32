@@ -21,6 +21,9 @@
 #define MCP3008_ADC_MAX				   1023
 #define MCP3008_SPI_TIMEOUT			   1    //1 msec timeout
 
+/**
+ * @brief MCP3008 Driver Handle struct
+ */
 typedef struct
 {
 
@@ -44,6 +47,8 @@ typedef enum
 
 void MCP3008_handle_init(MCP3008_Handle_t *handle, GPIO_TypeDef *cs_port, uint16_t cs_pin, SPI_HandleTypeDef *hspi);
 
-float MCP3008_read(MCP3008_Handle_t *handle, uint16_t chan);
+int16_t MCP3008_read(MCP3008_Handle_t *handle, uint8_t chan);
+
+float MCP3008_read_volts(MCP3008_Handle_t *handle, uint8_t chan, float vref);
 
 #endif /* __MCP3008_H_ */
